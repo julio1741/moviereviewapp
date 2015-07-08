@@ -1,6 +1,16 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
+  
+  def search
+    if params[:search].present?
+      #@movies = Movie.search(params[:search])
+      @movies = Movie.search params[:search], fields: [{title: :text_start}]
+    else
+      @movies = Movie.all
+    end
+  end
+
   # GET /movies
   # GET /movies.json
   def index
@@ -75,6 +85,6 @@ class MoviesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def movie_params
-      params.require(:movie).permit(:title, :description, :legnth, :rating, :director, :photo, :image)
+      params.require(:movie).permit(:title, :description, :genre, :legnth, :rating, :director, :photo, :image)
     end
 end

@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get 'landings/index'
 
   resources :movies do
+    collection do
+      get 'search'
+    end
     resources :reviews, except: [:show, :index]
   end
   # The priority is based upon order of creation: first created -> highest priority.
